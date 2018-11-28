@@ -36,13 +36,13 @@ for epoch in range(30):
 	train_accu = 0
 
 	for batch_x,batch_y in train_loader:
-		batch_x,batch_y = Variable(batch_x).cuda(),Variable(batch_y).cuda()#数据加载到显存
+		batch_x,batch_y = batch_x.cuda(),batch_y.cuda()#数据加载到显存
 		out = model(batch_x)
 		loss = loss_func(out,batch_y)
-		train_loss += loss.data[0]
+		train_loss += loss.item()
 		pred = torch.max(out,1)[1]
 		train_correct = (pred==batch_y).sum()
-		train_accu += train_correct.data[0]
+		train_accu += train_correct.item()
 		optimizer.zero_grad()
 		loss.backward()
 		optimizer.step()
